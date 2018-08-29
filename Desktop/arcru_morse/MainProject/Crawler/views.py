@@ -1,6 +1,9 @@
+import json
+import scrapy
 from django.shortcuts import render
 from django.http import HttpResponse as hres
-import json
+from scrapy.crawler import CrawlerProcess
+from .crawlProcess import initCrawl
 
 def index( req ):
 	return hres( 'Aquí irá el INDEX' )
@@ -16,7 +19,7 @@ def crawl( req ):
 	return render( req, 'Crawler/crawl.html' );
 
 
-def crawlit( self, req ):
+def crawlit( req ):
 	res = {}
 
 	automail = req.POST['automail']
@@ -32,5 +35,6 @@ def crawlit( self, req ):
 		res['success'] = True
 		res['message'] = 'Se envió correctamente la instrucción de búsqueda'
 		res['data'] = None
+	initCrawl('http://opticaym.com')
 
 	return hres( json.dumps( res ) )
