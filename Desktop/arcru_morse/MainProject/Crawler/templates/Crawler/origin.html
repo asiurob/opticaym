@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Arcru y Morse</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'Crawler/css/style.css' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"></script>
+    <script src="{% static 'Crawler/js/core.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+</head>
+
+<body>
+    {% csrf_token %}
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <center><img src="http://www.animationboss.net/wp-content/uploads/2017/12/Avatar-2-Sequels-Underwater-Scenes-Motion-Capture.jpg" 
+                class="rounded-circle avatar">
+                <h3>Alberto Siurob</h3>
+                <h6>Chief Information Officer</h6>
+              </center>
+            </div>
+
+            <ul class="list-unstyled components">                
+                <li class="active"><a href="/crawler/landing">Productividad</a></li>
+                <li><a href="crawl">Crawler</a></li>
+                <li><a href="adm_users">Adm. usuarios</a></li>
+                <li><a href="adm_mails">Adm. correos</a></li>
+                <li><a href="profile">Mi perfil</a><li>
+                <li><a href="goout">Salir</a></li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-bars"></i>
+            </button>
+            {%block workspace%}
+            {%endblock%}
+        </div>
+    </div>
+</body>
+
+</html>

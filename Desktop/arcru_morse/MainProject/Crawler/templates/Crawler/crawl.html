@@ -1,0 +1,96 @@
+{%extends 'Crawler/origin.html'%}
+{%block workspace%}
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#nuevo_crawl">Nuevo crawl</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#resultados">Resultados</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#dashboard">Dashboard</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#adm">Administración</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<hr>
+<div class="tab-content">
+  <div class="tab-pane container active" id="nuevo_crawl">
+    <form>
+      <div class="form-group">
+        <label>Indica las etiquetas a buscar</label><br>
+          <input type="text" class="form-control input-sm required" placeholder="Ej. lentes, comida, moda"   autocomplete="off" id="crawl_value">
+          <span class="min-words">Para búsquedas múltiples utiliza "," para separar las etiquetas</span>
+          <div class="form-group">
+            <label>Búsqueda por etiquetas</label>
+            <input type="checkbox" checked id="crawl_multiple"><br>
+            <label>Enviar correo automático</label>
+            <input type="checkbox" checked id="crawl_automail"><span class="selected-mail" data-mail="B1C2AA4009">-Nueva línea de armazones</span>
+          </div>
+      </div>
+            <div class="form-group">
+          <input type="button" class="btn btn-primary btn-sm search btn-block" value="Buscar" id="crawl_button">
+      </div>
+    </form>
+  </div>
+  <div class="tab-pane container fade" id="resultados">...</div>
+  <div class="tab-pane container fade" id="dashboard">...</div>
+  <div class="tab-pane container fade" id="adm">...</div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    swapActive('crawl');  
+  });
+  
+ $(document).on('change','#crawl_automail',function(){
+    let vis = $(this).is(':checked');
+    if( vis ){
+      $('.selected-mail').each(function(){
+        $(this).show('fast');
+      });
+    }
+
+    else{
+      $('.selected-mail').each(function(){
+        $(this).hide('fast');
+      });
+    }
+ });
+
+  $(document).on('change','#crawl_multiple',function(){
+    let readonly = $(this).is(':checked');
+    $('#crawl_value').prop('readonly', !readonly);
+    $('#crawl_value').prop('required', readonly);
+ });
+
+ $(document).on('click','#crawl_button',function(){
+    var obj = {}, mailsArr = [];
+    obj.automail = $('#crawl_automail').is(':checked');
+    obj.multiple = $('#crawl_multiple').is(':checked');
+
+    if( obj.automail ){
+      $('.selected-mail').each(function(){
+        mailsArr.push( $(this).data('mail') );
+      });
+    }    
+
+    if( obj.multiple ){
+      obj.value = $('#crawl_value').val().trim() || null;  
+    }else{
+      obj.value = null;
+    }
+
+    obj.mails = mailsArr.join();
+    obj.csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val().trim() || null;
+    callAjax( obj, 'crawlit', 'POST', function( r ){
+      
+    });
+ });
+</script>
+
+{% endblock%}
